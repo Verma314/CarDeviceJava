@@ -6,6 +6,10 @@
 package rallydevice;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import javax.swing.AbstractAction;
+import javax.swing.JRootPane;
+import javax.swing.KeyStroke;
 
 /**
  *
@@ -20,7 +24,29 @@ public class Navigator2 extends javax.swing.JFrame {
         initComponents();
         this.getContentPane().setBackground( new Color(219, 238, 244) );
         this.prev = prev;
+        
+         JRootPane panel = this.getRootPane();
+         
+        panel.getInputMap().put(KeyStroke.getKeyStroke('T'),"forward");
+        panel.getInputMap().put(KeyStroke.getKeyStroke('t'),"forward");    
+        
+        panel.getActionMap().put("forward", new AbstractAction(){
+        @Override
+        public void actionPerformed(ActionEvent e){
+            altToggle();
+          
+        }
+    });
     }
+
+    public void altToggle() {
+        prev.setVisible(true);
+        this.setVisible(false);
+              
+    }
+        
+        
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -102,6 +128,9 @@ public class Navigator2 extends javax.swing.JFrame {
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
         // TODO add your handling code here:
+        
+        
+        
         prev.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jToggleButton1ActionPerformed
