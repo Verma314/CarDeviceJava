@@ -7,6 +7,14 @@ package rallydevice;
 
 import java.awt.Color;
 import java.awt.*;
+import javax.swing.Action;
+
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.Scanner;
 import java.awt.image.*;
 import java.awt.geom.*;
 import javax.swing.*;
@@ -30,8 +38,24 @@ public class Navigator extends javax.swing.JFrame    {
     public int tulipDist;
     public int distanceCoveredTillNow;
     
+
     public Navigator() {
         initComponents();
+        
+        JRootPane panel = this.getRootPane();
+         
+        panel.getInputMap().put(KeyStroke.getKeyStroke('T'),"forward");
+        panel.getInputMap().put(KeyStroke.getKeyStroke('t'),"forward");    
+        
+        panel.getActionMap().put("forward", new AbstractAction(){
+        @Override
+        public void actionPerformed(ActionEvent e){
+            altToggle();
+          
+        }
+    });
+        
+  
        
         this.getContentPane().setBackground( new Color(219, 238, 244) );
         tulipNum = 0;
@@ -86,6 +110,18 @@ public class Navigator extends javax.swing.JFrame    {
         this.updateTulip();
     }
     
+    
+public static boolean isInteger(String s) {
+    try { 
+        Integer.parseInt(s); 
+    } catch(NumberFormatException e) { 
+        return false; 
+    } catch(NullPointerException e) {
+        return false;
+    }
+    // only got here if we didn't return false
+    return true;
+}
 
     public void checkAndUpdate() {
         /**this function is used to check whether 
@@ -135,6 +171,21 @@ public class Navigator extends javax.swing.JFrame    {
         
     }
     
+    
+    
+public void keyPressed(KeyEvent e) {
+    if (e.getKeyCode()==KeyEvent.VK_SHIFT){
+        System.out.println("Hello");
+    }
+
+}
+
+    public void altToggle( ) {
+        new Navigator2(this).setVisible(true);
+        this.setVisible(false);
+    }
+
+    
     public void updateTulip() {
         String s = Integer.toString(this.tulipNum+1);
         this.distanceCoveredTillNow += this.tulipDist;
@@ -177,6 +228,29 @@ public class Navigator extends javax.swing.JFrame    {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(153, 153, 255));
         setResizable(false);
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                formFocusGained(evt);
+            }
+        });
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentHidden(java.awt.event.ComponentEvent evt) {
+                formComponentHidden(evt);
+            }
+        });
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                formKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                formKeyReleased(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel1.setText("Start Distance ");
@@ -441,6 +515,29 @@ public class Navigator extends javax.swing.JFrame    {
         
         
     }//GEN-LAST:event_jToggleButton2ActionPerformed
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        // TODO add your handling code here:
+        System.out.println("f work");
+    }//GEN-LAST:event_formMouseClicked
+
+    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+        // TODO add your handling code here:
+        System.out.println("plizz");
+    }//GEN-LAST:event_formKeyPressed
+
+    private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
+        // TODO add your handling code here:
+        System.out.println("plizz");
+    }//GEN-LAST:event_formKeyReleased
+
+    private void formComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentHidden
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formComponentHidden
+
+    private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formFocusGained
 
     /**
      * @param args the command line arguments
