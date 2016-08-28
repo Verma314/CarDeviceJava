@@ -5,32 +5,15 @@
  */
 package rallydevice;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
-import javax.swing.Timer;
 import javax.swing.border.LineBorder;
-import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.text.SimpleDateFormat;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import java.util.concurrent.TimeUnit;
 import javax.swing.Timer;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-
 
 /**
  *
- * @author MAHE
+ * @author A. Verma @ Salahacar
  */
 public class DriverScreen extends javax.swing.JFrame {
 
@@ -43,17 +26,20 @@ public class DriverScreen extends javax.swing.JFrame {
     public int tulipDist;
     public Navigator prevScreen;
     
-        private Timer timer;
-        private long startTime = -1;
-        private long duration = 5000;
-        
-
+    private Timer timer;
+    private long startTime = -1;
+    private long duration;
+    private long millis;
    
     public DriverScreen(Navigator PREV,int speed, int time, int tulipDist) {
         initComponents();
         this.getContentPane().setBackground(Color.BLACK);
         this.speed = speed;
         this.time = time;
+      
+        this.duration = time * 60 * 1000;
+        this.millis = time * 60 *1000; // minutes to milliseconds
+        
         this.tulipDist = tulipDist;
         this.distanceTravelled = 0;
         this.prevScreen = PREV;
@@ -62,9 +48,7 @@ public class DriverScreen extends javax.swing.JFrame {
         jLabel11.setText("0");
         
         LineBorder line = new LineBorder(Color.black, 2, true);
-
-        
-        ///////////////////////////////////////////////////
+        /////////////////////DISPLAY//////////////////////////////
         jLabel1.setBorder(line);
        
         jLabel1.setOpaque(true);
@@ -131,46 +115,17 @@ public class DriverScreen extends javax.swing.JFrame {
         jLabel13.setBackground( Color.black);
         jLabel13.setBorder(line);
         
-        jLabel14.setOpaque(true);
-        jLabel14.setForeground(Color.white);
-        jLabel14.setBackground( Color.black);
-        jLabel14.setBorder(line);
-
         jLabel15.setOpaque(true);
         jLabel15.setForeground(Color.white);
         jLabel15.setBackground( Color.black);
         jLabel15.setBorder(line);
+    }    
         
-        
-        
-        
-        
-        /////////timer code
-        timer = new Timer(10, new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    if (startTime < 0) {
-                        startTime = System.currentTimeMillis();
-                    }
-                    long now = System.currentTimeMillis();
-                    long clockTime = now - startTime;
-                    if (clockTime >= duration) {
-                        clockTime = duration;
-                        timer.stop();
-                    }
-                    SimpleDateFormat df = new SimpleDateFormat("mm:ss:SSS");
-                    jLabel16.setText(df.format(duration - clockTime));
-                }
-            });
-                    timer.setInitialDelay(0);
-                    
-                    if (!timer.isRunning()) {
-                        startTime = -1;
-                        timer.start();
-                    }
-                   
-                    
-    }
+       
+    
+    
+    
+    
 
     public void getDistanceTravelled() {
         
@@ -181,16 +136,35 @@ public class DriverScreen extends javax.swing.JFrame {
         
         this.speed = speed;
         this.time = time;
+        this.duration = time * 60 * 1000;
+        this.millis = time * 60 *1000; // minutes to milliseconds
         this.tulipDist = tulipDist;
-       
         this.distanceTravelled = Integer.parseInt(jLabel10.getText());
-     
         jLabel13.setText(Integer.toString(this.speed));
         jLabel11.setText(Integer.toString(this.time));
         if ( this.distanceTravelled >= this.tulipDist ) {
             //increment tulip number in navigator class
             prevScreen.updateTulip();
         } 
+        timer = new Timer(1000, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if ( millis < 0 ) {timer.stop(); }
+                    
+                    String hms = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(millis),
+            TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
+            TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
+            System.out.println(hms);
+            jLabel11.setText(hms);
+            
+            millis -=1000;
+                }
+        });
+        if (!timer.isRunning()) {
+                        startTime = -1;
+                        timer.start();
+                    }
+        
         
     }
     
@@ -217,9 +191,7 @@ public class DriverScreen extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -253,7 +225,7 @@ public class DriverScreen extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Arial", 0, 70)); // NOI18N
         jLabel10.setText("0");
 
-        jLabel11.setFont(new java.awt.Font("Arial", 0, 70)); // NOI18N
+        jLabel11.setFont(new java.awt.Font("Arial", 0, 48)); // NOI18N
         jLabel11.setText("0");
 
         jLabel12.setFont(new java.awt.Font("Arial", 0, 70)); // NOI18N
@@ -262,13 +234,8 @@ public class DriverScreen extends javax.swing.JFrame {
         jLabel13.setFont(new java.awt.Font("Arial", 0, 70)); // NOI18N
         jLabel13.setText("0");
 
-        jLabel14.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        jLabel14.setText("minutes");
-
         jLabel15.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
         jLabel15.setText("1");
-
-        jLabel16.setText("jLabel16");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -290,14 +257,15 @@ public class DriverScreen extends javax.swing.JFrame {
                         .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(43, 43, 43)
                         .addComponent(jLabel4)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(56, 56, 56))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(119, 119, 119))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(78, 78, 78)
+                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -319,25 +287,20 @@ public class DriverScreen extends javax.swing.JFrame {
                                 .addComponent(jLabel9))
                             .addComponent(jLabel8))))
                 .addGap(0, 65, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel16)
-                .addGap(247, 247, 247))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel16)
-                        .addGap(33, 33, 33)
+                        .addGap(55, 55, 55)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
                             .addComponent(jLabel5)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(49, 49, 49))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel15)
@@ -345,9 +308,8 @@ public class DriverScreen extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(37, 37, 37)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(53, 53, 53)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -364,7 +326,7 @@ public class DriverScreen extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
                             .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(135, Short.MAX_VALUE))
+                .addContainerGap(127, Short.MAX_VALUE))
         );
 
         pack();
@@ -411,9 +373,7 @@ public class DriverScreen extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

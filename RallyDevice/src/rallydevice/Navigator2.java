@@ -13,7 +13,7 @@ import javax.swing.KeyStroke;
 
 /**
  *
- * @author MAHE
+ * @author A. Verma @ Salahacar
  */
 public class Navigator2 extends javax.swing.JFrame {
     Navigator prev;

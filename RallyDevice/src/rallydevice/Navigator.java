@@ -4,33 +4,17 @@
  * and open the template in the editor.
  */
 package rallydevice;
-
 import java.awt.Color;
-import java.awt.*;
-import javax.swing.Action;
-
-import java.awt.Component;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.Scanner;
-import java.awt.image.*;
-import java.awt.geom.*;
 import javax.swing.*;
 import javax.swing.border.*;
-
 /**
  *
- * @author A. Verma
+ * @author A. Verma @ Salahacar
  */
-
-
 public class Navigator extends javax.swing.JFrame    {
-
-    /**
-     * Creates new form Navigator
-     */
+    
     public DriverScreen nextScreen;
     public int recommendedSpeed;
     public int minsRemaining;
@@ -38,10 +22,11 @@ public class Navigator extends javax.swing.JFrame    {
     public int tulipDist;
     public int distanceCoveredTillNow;
     
-
+     
     public Navigator() {
         initComponents();
         
+        //toggle functionality
         JRootPane panel = this.getRootPane();
          
         panel.getInputMap().put(KeyStroke.getKeyStroke('T'),"forward");
@@ -51,32 +36,22 @@ public class Navigator extends javax.swing.JFrame    {
         @Override
         public void actionPerformed(ActionEvent e){
             altToggle();
-          
-        }
-    });
-        
-  
-       
+        }  
+        });
+    
+               
         this.getContentPane().setBackground( new Color(219, 238, 244) );
         tulipNum = 0;
         this.distanceCoveredTillNow = 0;
-        
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(100,100);
-        //this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
-        
         
         //making the driver screen visible
         nextScreen = new DriverScreen(this,1,1,1);
         nextScreen.setVisible(true);
         
-        
-	LineBorder line = new LineBorder(new Color(85,128,184), 2, true);
-
-        
-        ///////////////////////////////////////////////////
+      	LineBorder line = new LineBorder(new Color(85,128,184), 2, true);
+        ////////////////display settings///////////////////////////////////
         jLabel1.setBorder(line);
-       
         jLabel1.setOpaque(true);
         jLabel1.setForeground(Color.white);
         jLabel1.setBackground( new Color(85,128,184));
@@ -90,17 +65,17 @@ public class Navigator extends javax.swing.JFrame    {
         jLabel3.setOpaque(true);
         jLabel3.setForeground(Color.white);
         jLabel3.setBackground( new Color(85,128,184));
-                jLabel3.setBorder(line);
+        jLabel3.setBorder(line);
        
         jLabel4.setOpaque(true);
         jLabel4.setForeground(Color.white);
         jLabel4.setBackground( new Color(85,128,184));
-                jLabel4.setBorder(line);
+        jLabel4.setBorder(line);
        
         jLabel5.setOpaque(true);
         jLabel5.setForeground(Color.white);
         jLabel5.setBackground( new Color(85,128,184));
-                jLabel5.setBorder(line);
+        jLabel5.setBorder(line);
        
         jLabel6.setOpaque(true);
         jLabel6.setForeground(Color.white);
@@ -108,21 +83,9 @@ public class Navigator extends javax.swing.JFrame    {
         jLabel6.setBorder(line);
         
         this.updateTulip();
-    }
+    }    
+        
     
-    
-public static boolean isInteger(String s) {
-    try { 
-        Integer.parseInt(s); 
-    } catch(NumberFormatException e) { 
-        return false; 
-    } catch(NullPointerException e) {
-        return false;
-    }
-    // only got here if we didn't return false
-    return true;
-}
-
     public void checkAndUpdate() {
         /**this function is used to check whether 
          * the text fields are filled with some values, if they are we update 
@@ -132,17 +95,14 @@ public static boolean isInteger(String s) {
          *  EVERYTHING has to be fILLED! 
          *  if it is not a free zone jTextField4 can be left empty
          * */
-        
         //Free zone
-        
         if ( jTextField3.getText().startsWith("F") ||jTextField3.getText().startsWith("f") ) {
             if ( jTextField1.getText().equals("")  ||
                  jTextField2.getText().equals("")  || 
-                jTextField3.getText().equals("") ||
-          
-                jTextField4.getText().equals("")  ||
-                jTextField5.getText().equals("")  ||
-                jTextField6.getText().equals("") )  {
+                 jTextField3.getText().equals("") ||
+                 jTextField4.getText().equals("")  ||
+                 jTextField5.getText().equals("")  ||
+                 jTextField6.getText().equals("") )  {
                 //if any of this is empty we can't update OR
             }
             else {
@@ -152,10 +112,7 @@ public static boolean isInteger(String s) {
         else {
              if ( jTextField1.getText().equals("")  ||
                   jTextField2.getText().equals("")  || 
-                  
                   jTextField3.getText().equals("") ||
-                     
-                 
                   jTextField5.getText().equals("")  ||
                   jTextField6.getText().equals("") )  {
                 //if any of this is empty we can't update OR
@@ -163,23 +120,10 @@ public static boolean isInteger(String s) {
              else {
                  alternateButton();
              }
-            
         }
-        
-        
-        
-        
     }
-    
-    
-    
-public void keyPressed(KeyEvent e) {
-    if (e.getKeyCode()==KeyEvent.VK_SHIFT){
-        System.out.println("Hello");
-    }
-
-}
-
+        
+        
     public void altToggle( ) {
         new Navigator2(this).setVisible(true);
         this.setVisible(false);
@@ -195,9 +139,9 @@ public void keyPressed(KeyEvent e) {
         jTextField4.setText("");
         jTextField5.setText("");
          //nextScreen.update(1,1,1);
+    }     
          
-         
-    }
+    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -413,8 +357,6 @@ public void keyPressed(KeyEvent e) {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        
-        // TODO add your handling code here:
         checkAndUpdate();
     }//GEN-LAST:event_jTextField1ActionPerformed
 
@@ -424,21 +366,16 @@ public void keyPressed(KeyEvent e) {
     }//GEN-LAST:event_jTextField5ActionPerformed
 
     private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
-        checkAndUpdate();
-        // TODO add your handling code here:
-     
+        checkAndUpdate();    
     }//GEN-LAST:event_jTextField4ActionPerformed
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-        // TODO add your handling code here:
-       
         new Navigator2(this).setVisible(true);
         this.setVisible(false);
         
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
-        // TODO add your handling code here:
         checkAndUpdate();
         if ( jTextField3.getText().startsWith("F") || 
                 jTextField3.getText().startsWith("f") )
@@ -446,9 +383,7 @@ public void keyPressed(KeyEvent e) {
     }//GEN-LAST:event_jTextField3ActionPerformed
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        checkAndUpdate();
-        // TODO add your handling code here:
-        
+        checkAndUpdate();        
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     
@@ -464,56 +399,24 @@ public void keyPressed(KeyEvent e) {
             System.out.println(this.recommendedSpeed);
             nextScreen.update(this.recommendedSpeed, idealT,this.tulipDist);
             nextScreen.setVisible(true);
-            
-
-        
-        }
+        }    
         else {
             //means ideal time needs to be calculated
             this.tulipDist = Integer.parseInt(jTextField5.getText());
             int givenS = Integer.parseInt(jTextField3.getText());
-            
             this.minsRemaining = this.tulipDist / givenS;
-            //new DriverScreen(this, givenS, this.minsRemaining, this.tulipDist).setVisible(true);
+                                                                                                     
             nextScreen.update(givenS, this.minsRemaining, this.tulipDist);
             nextScreen.setVisible(true);
         }
-    
-    
     }
+    
+    
     
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
         // TODO add your handling code here:
         
-        alternateButton();
-        /**
-        if ( jTextField3.getText().equals("F" ) || 
-            jTextField3.getText().equals("f") ) {
-              
-            this.tulipDist = Integer.parseInt(jTextField5.getText());
-            int idealT = Integer.parseInt(jTextField4.getText());
-            this.recommendedSpeed = this.tulipDist/idealT;
-                 
-            System.out.println(this.recommendedSpeed);
-            nextScreen.update(this.recommendedSpeed, idealT,this.tulipDist);
-            nextScreen.setVisible(true);
-
-        
-        }
-        else {
-            //means ideal time needs to be calculated
-            this.tulipDist = Integer.parseInt(jTextField5.getText());
-            int givenS = Integer.parseInt(jTextField3.getText());
-            
-            this.minsRemaining = this.tulipDist / givenS;
-            //new DriverScreen(this, givenS, this.minsRemaining, this.tulipDist).setVisible(true);
-            nextScreen.update(givenS, this.minsRemaining, this.tulipDist);
-            nextScreen.setVisible(true);
-        }
-        
-        **/
-        
-        
+        alternateButton();        
     }//GEN-LAST:event_jToggleButton2ActionPerformed
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
@@ -522,13 +425,11 @@ public void keyPressed(KeyEvent e) {
     }//GEN-LAST:event_formMouseClicked
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-        // TODO add your handling code here:
-        System.out.println("plizz");
+        //doesn't work
     }//GEN-LAST:event_formKeyPressed
 
     private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
-        // TODO add your handling code here:
-        System.out.println("plizz");
+        //doesn't work
     }//GEN-LAST:event_formKeyReleased
 
     private void formComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentHidden
