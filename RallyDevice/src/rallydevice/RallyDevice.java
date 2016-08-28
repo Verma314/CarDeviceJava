@@ -3,7 +3,7 @@ package rallydevice;
 
 /**
  *
- * @author A. Verma
+ * @author A. Verma @ Salahacar
  */
 public class RallyDevice {
 
