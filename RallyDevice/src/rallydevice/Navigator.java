@@ -6,9 +6,12 @@
 package rallydevice;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
+import java.text.NumberFormat;
+import java.text.ParsePosition;
 import javax.swing.*;
 import javax.swing.border.*;
+import javax.swing.text.AbstractDocument;
+
 /**
  *
  * @author A. Verma @ Salahacar
@@ -21,7 +24,7 @@ public class Navigator extends javax.swing.JFrame    {
     public int tulipNum;
     public int tulipDist;
     public int distanceCoveredTillNow;
-    
+    public MyDocumentFilter documentFilter;
      
     public Navigator() {
         initComponents();
@@ -40,6 +43,15 @@ public class Navigator extends javax.swing.JFrame    {
         });
     
                
+        //trying to allow only numeric values;
+        ((AbstractDocument)jTextField1.getDocument()).setDocumentFilter(new MyDocumentFilter());    
+        ((AbstractDocument)jTextField2.getDocument()).setDocumentFilter(new MyDocumentFilter());        
+        ((AbstractDocument)jTextField4.getDocument()).setDocumentFilter(new MyDocumentFilter());    
+        ((AbstractDocument)jTextField5.getDocument()).setDocumentFilter(new MyDocumentFilter());    
+        ((AbstractDocument)jTextField6.getDocument()).setDocumentFilter(new MyDocumentFilter());    
+
+        
+        
         this.getContentPane().setBackground( new Color(219, 238, 244) );
         tulipNum = 0;
         this.distanceCoveredTillNow = 0;
@@ -50,7 +62,7 @@ public class Navigator extends javax.swing.JFrame    {
         nextScreen.setVisible(true);
         
       	LineBorder line = new LineBorder(new Color(85,128,184), 2, true);
-        ////////////////display settings///////////////////////////////////
+        ////////////////display settings////////////////////////////////
         jLabel1.setBorder(line);
         jLabel1.setOpaque(true);
         jLabel1.setForeground(Color.white);
@@ -168,6 +180,7 @@ public class Navigator extends javax.swing.JFrame    {
         jToggleButton2 = new javax.swing.JToggleButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(153, 153, 255));
@@ -267,6 +280,9 @@ public class Navigator extends javax.swing.JFrame    {
         jLabel8.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel8.setText("num");
 
+        jLabel9.setFont(new java.awt.Font("sansserif", 1, 16)); // NOI18N
+        jLabel9.setText("minutes");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -310,7 +326,9 @@ public class Navigator extends javax.swing.JFrame    {
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel9)
+                .addContainerGap(120, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -349,18 +367,31 @@ public class Navigator extends javax.swing.JFrame    {
                 .addGap(56, 56, 56)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
                 .addContainerGap(83, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public static boolean isNumeric(String str)
+    {
+        NumberFormat formatter = NumberFormat.getInstance();
+        ParsePosition pos = new ParsePosition(0);
+        formatter.parse(str, pos);
+        return str.length() == pos.getIndex();
+}
+    
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        if ( !isNumeric(jTextField1.getText()) )
+            jTextField1.setText("0");
+        
         checkAndUpdate();
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+
         checkAndUpdate();
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField5ActionPerformed
@@ -420,8 +451,7 @@ public class Navigator extends javax.swing.JFrame    {
     }//GEN-LAST:event_jToggleButton2ActionPerformed
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
-        // TODO add your handling code here:
-        System.out.println("f work");
+
     }//GEN-LAST:event_formMouseClicked
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
@@ -484,6 +514,7 @@ public class Navigator extends javax.swing.JFrame    {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
