@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JRootPane;
 import javax.swing.KeyStroke;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -17,11 +18,13 @@ import javax.swing.KeyStroke;
  */
 public class Navigator2 extends javax.swing.JFrame {
     Navigator prev;
+    DefaultTableModel model;
     /**
      * Creates new form Navigator2
      */
     public Navigator2(Navigator prev) {
         initComponents();
+        jToggleButton1.setVisible(false);
         this.getContentPane().setBackground( new Color(219, 238, 244) );
         this.prev = prev;
         
@@ -37,6 +40,36 @@ public class Navigator2 extends javax.swing.JFrame {
           
         }
     });
+        jTable1.getInputMap().put(KeyStroke.getKeyStroke('T'),"forward");
+        jTable1.getInputMap().put(KeyStroke.getKeyStroke('t'),"forward");    
+        
+        jTable1.getActionMap().put("forward", new AbstractAction(){
+        @Override
+        public void actionPerformed(ActionEvent e){
+            altToggle();
+          
+        }
+    });
+        jToggleButton1.getInputMap().put(KeyStroke.getKeyStroke('T'),"forward");
+        jToggleButton1.getInputMap().put(KeyStroke.getKeyStroke('t'),"forward");    
+        
+        jToggleButton1.getActionMap().put("forward", new AbstractAction(){
+        @Override
+        public void actionPerformed(ActionEvent e){
+            altToggle();
+          
+        }
+    });
+        
+        
+        
+        
+        
+        model = (DefaultTableModel) jTable1.getModel();
+    }
+     
+    public void addData() {
+         model.addRow(new Object[]{prev.tulipNum, prev.tulipDist, prev.recommendedSpeed, Integer.toString(prev.idealTime),"???"});
     }
 
     public void altToggle() {
@@ -70,14 +103,9 @@ public class Navigator2 extends javax.swing.JFrame {
             }
         });
 
+        jTable1.setFont(new java.awt.Font("sansserif", 0, 24)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
                 {null, null, null, null, null},
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -91,7 +119,7 @@ public class Navigator2 extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Double.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -105,13 +133,13 @@ public class Navigator2 extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(525, Short.MAX_VALUE)
                 .addComponent(jToggleButton1)
                 .addGap(102, 102, 102))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 656, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 643, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -119,8 +147,8 @@ public class Navigator2 extends javax.swing.JFrame {
                 .addGap(37, 37, 37)
                 .addComponent(jToggleButton1)
                 .addGap(26, 26, 26)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(60, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(142, Short.MAX_VALUE))
         );
 
         pack();
